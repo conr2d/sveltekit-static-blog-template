@@ -41,8 +41,8 @@ const xml = (posts: BlogPost[]) => `
       <height>32</height>
     </image>
     ${posts
-    .map(
-      (post) => `
+      .map(
+        (post) => `
         <item>
           <guid>${siteBaseUrl}/${post.slug}</guid>
           <title>${post.title}</title>
@@ -66,7 +66,7 @@ const xml = (posts: BlogPost[]) => `
           ${post.coverImage ? `<media:content xmlns:media="http://search.yahoo.com/mrss/" medium="image" url="${siteBaseUrl}/${post.coverImage}"/>` : ''}          
         </item>
       `
-    )
-    .join('')}
+      )
+      .join('')}
   </channel>
 </rss>`;

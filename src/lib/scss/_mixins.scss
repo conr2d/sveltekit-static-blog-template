@@ -1,3 +1,4 @@
+@use 'sass:color';
 @import './_breakpoints.scss';
 @import './_functions.scss';
 
@@ -34,12 +35,13 @@
 @mixin define-color($title, $color) {
 	--color--#{$title}: #{$color};
 
-	--color--#{$title}-h: #{hue($color)};
-	--color--#{$title}-l: #{lightness($color)};
-	--color--#{$title}-s: #{saturation($color)};
+	--color--#{$title}-h: #{color.channel($color, 'hue', $space: hsl)};
+	--color--#{$title}-l: #{color.channel($color, 'lightness', $space: hsl)};
+	--color--#{$title}-s: #{color.channel($color, 'saturation', $space: hsl)};
 	--color--#{$title}-a: #{alpha($color)};
 
-	--color--#{$title}-rgb: #{red($color)}, #{green($color)}, #{blue($color)};
+	--color--#{$title}-rgb: #{color.channel($color, 'red')}, #{color.channel($color, 'green')},
+		#{color.channel($color, 'blue')};
 
 	--color--#{$title}-contrast: #{if(
 			brightness($color) > 186,

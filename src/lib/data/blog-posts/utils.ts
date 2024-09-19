@@ -2,13 +2,13 @@
 // even if not directly used in this file
 // eslint-disable-next-line no-unused-vars
 import Prism from 'prismjs';
-// Here we assign it to a variable so the import above 
+// Here we assign it to a variable so the import above
 // is not removed automatically on build
 const ifYouRemoveMeTheBuildFails = Prism;
 import 'prism-svelte';
 import readingTime from 'reading-time/lib/reading-time';
 import striptags from 'striptags';
-import type { BlogPost } from "$lib/utils/types";
+import type { BlogPost } from '$lib/utils/types';
 
 export const importPosts = (render = false) => {
   const blogImports = import.meta.glob('$routes/*/*/*.md', { eager: true });
@@ -22,16 +22,17 @@ export const importPosts = (render = false) => {
     if (post) {
       posts.push({
         ...post.metadata,
-        html: render && post.default.render ? post.default.render()?.html : undefined,
+        html: render && post.default.render ? post.default.render()?.html : undefined
       });
     }
   }
 
   return posts;
-}
+};
 
 export const filterPosts = (posts: BlogPost[]) => {
-  return posts.filter((post) => !post.hidden)
+  return posts
+    .filter((post) => !post.hidden)
     .sort((a, b) =>
       new Date(a.date).getTime() > new Date(b.date).getTime()
         ? -1
@@ -46,10 +47,10 @@ export const filterPosts = (posts: BlogPost[]) => {
       return {
         ...post,
         readingTime: readingTimeResult ? readingTimeResult.text : '',
-        relatedPosts: relatedPosts,
+        relatedPosts: relatedPosts
       } as BlogPost;
     });
-}
+};
 
 // #region Unexported Functions
 
@@ -61,12 +62,12 @@ const getRelatedPosts = (posts: BlogPost[], post: BlogPost) => {
       const aTags = a.tags?.filter((t) => post.tags?.includes(t));
       const bTags = b.tags?.filter((t) => post.tags?.includes(t));
       return aTags?.length > bTags?.length ? -1 : aTags?.length < bTags?.length ? 1 : 0;
-    })
+    });
 
   return relatedPosts.slice(0, 3).map((p) => ({
     ...p,
-    readingTime: p.html ? readingTime(striptags(p.html) || '').text : '',
+    readingTime: p.html ? readingTime(striptags(p.html) || '').text : ''
   }));
-}
+};
 
 // #endregion
